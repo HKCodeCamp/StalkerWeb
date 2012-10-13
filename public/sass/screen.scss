@@ -1,0 +1,26 @@
+@import "base";
+@import "compass";
+@import "compass/css3/text-shadow";
+@import "compass/css3/border-radius";
+@import "compass/css3/images";
+
+
+.stalked {
+  margin-bottom: 10px;
+  .more-details {
+    text-align: right;
+  }
+}
+
+body {
+  padding-top: 0;
+  @media (min-width: 1200px) { 
+    padding-top: 60px;
+  }
+}
+
+.navbar {
+  @media (max-width: 767px) { 
+    margin-bottom: 0 !important;
+  }
+}
