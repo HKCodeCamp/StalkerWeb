@@ -18,11 +18,11 @@ window.LoginView = (function(Backbone, _, $) {
 
     onLoginSubmit: function(e) {
       e.preventDefault();
-      // this.$('.alert').hide();
-      // if (!this.model.has('username') || !this.model.has('password')) {
-      //   this.$('.moooooo').show();
-      //   return;
-      // }
+      this.$('.alert').hide();
+      if (!this.model.has('username') || !this.model.has('password')) {
+        this.$('.alert').show();
+        return;
+      }
       this.model.save({
         username: this.$('input#username').val(),
         password: this.$('input#password').val()
@@ -45,51 +45,49 @@ window.LoginView = (function(Backbone, _, $) {
   });
 
   return View;
-
 })(window.Backbone, window._, window.jQuery)
 
-// window.RegisterView = (function(Backbone, _, $) {
+window.RegisterView = (function(Backbone, _, $) {
 
-//   var Registration = Backbone.Model.extend({
+  var Registration = Backbone.Model.extend({
 
-//     urlRoot: '/api/register'
+    urlRoot: 'http://istalkerapp.appspot.com/register'
 
-//   });
+  });
 
-//   var View = Backbone.View.extend({
+  var View = Backbone.View.extend({
 
-//     events: {
-//       'submit form': 'onRegistrationSubmit'
-//     },
+    events: {
+      'submit form': 'onRegistrationSubmit'
+    },
 
-//     initialize: function() {
-//       this.model = new Registration();
-//     },
+    initialize: function() {
+      this.model = new Registration();
+    },
 
-//     onRegistrationSubmit: function(e) {
-//       e.preventDefault();
-//       this.$('.alert').hide();
-//       this.model.save({
-//         username: this.$('input#username').val(),
-//         password: this.$('input#password').val()
-//       }, {
-//         success: _.bind(this.onLoginSuccess, this),
-//         error: _.bind(this.onLoginError, this)
-//       });
-//     },
+    onRegistrationSubmit: function(e) {
+      e.preventDefault();
+      this.$('.alert').hide();
+      this.model.save({
+        username: this.$('input#username').val(),
+        password: this.$('input#password').val()
+      }, {
+        success: _.bind(this.onRegistrationSuccess, this),
+        error: _.bind(this.onRegistrationError, this)
+      });
+    },
 
-//     onLoginSuccess: function(model, response) {
-//       sessionStorage.setItem('user_id', model.get('user_id'));
-//       sessionStorage.setItem('username', model.get('username'));
-//       window.location = '/';
-//     },
+    onRegistrationSuccess: function(model, response) {
+      sessionStorage.setItem('user_id', model.get('user_id'));
+      sessionStorage.setItem('username', model.get('username'));
+      window.location = '/';
+    },
 
-//     onLoginError: function() {
-//       this.$('.alert').show();
-//     }
+    onRegistrationError: function() {
+      this.$('.alert').show();
+    }
 
-//   });
+  });
 
-//   return View;
-
-// })(window.Backbone, window._, window.jQuery)
+  return View;
+})(window.Backbone, window._, window.jQuery)

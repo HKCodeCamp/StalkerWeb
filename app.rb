@@ -22,12 +22,6 @@ get '/detail' do
   erb :detail, :layout => :layout
 end
 
-post '/bad' do
-  content_type :json
-   halt(500, { :type => 'EmailTaken'}.to_json)
-  
-end 
-
 get '/profile' do
   @title = "my profile "
   erb :profile, :layout => :layout
