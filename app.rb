@@ -17,8 +17,9 @@ get '/search' do
   erb :search, :layout => :layout
 end
 
-get '/detail' do
+get '/detail/:id' do
   @title = "~CELEB NAME~"
+  @id = params[:id]
   erb :detail, :layout => :layout
 end
 

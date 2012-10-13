@@ -34,7 +34,7 @@ window.LoginView = (function(Backbone, _, $) {
 
     onLoginSuccess: function(model, response) {
       sessionStorage.setItem('user_id', model.get('user_id'));
-      sessionStorage.setItem('username', model.get('username'));
+      sessionStorage.setItem('username', this.$('input#username').val());
       window.location = '/';
     },
 
@@ -103,14 +103,10 @@ window.ListView = (function(Backbone, _, $) {
   var Stalk = Backbone.View.extend({
 
     render: function() {
-      var template = _.template($("#template").html())
-      this.$el.html(template({
-        id: this.model.get('celebrityid'),
-        name: this.model.get('celebrityname'),
-        when: '5 minutes ago',
-        where: this.model.get('location'),
-        comment: this.model.get('comment')
-      }))
+      var template = _.template($("#template").html());
+      this.$el.html(template(_.extend({}, this.model.toJSON(), {
+
+      })));
       return this;
     }
 
@@ -133,6 +129,78 @@ window.ListView = (function(Backbone, _, $) {
       collection.each(function(model)  {
         this.$('.list').append(new Stalk({ model: model }).render().$el);
       }, this);
+    }
+
+  });
+
+  return View;
+})(window.Backbone, window._, window.jQuery)
+
+
+window.DetailView = (function(Backbone, _, $) {
+
+  var Celeb = Backbone.Model.extend({
+
+    initialize: function(attr, options) {
+      this.celebId = options.celebId;
+    },
+
+    url: function() {
+      return 'http://istalkerapp.appspot.com/detail/' + this.celebId + '/' + sessionStorage.getItem('user_id') + '/';
+    }
+
+  });
+
+  var View = Backbone.View.extend({
+
+    events: {
+      'click button.following': 'onFollowClick'
+    },
+
+    initialize: function() {
+      this.model = new Celeb(null, { celebId: this.options.celebId });
+      this.model.fetch({
+        success: _.bind(this.renderCeleb, this)
+      });
+    },
+
+    renderCeleb: function() {
+      var template = _.template($("#template").html());
+      this.$el.html(template(_.extend({}, this.model.toJSON(), {
+        spottings: JSON.parse(this.model.get('spottings'))
+      })));
+      if (this.model.get('following') == 'true') {
+        this.$('button.following').removeClass('btn-success').addClass('btn-danger').html('Stop Stalking');
+      } else {
+        this.$('button.following').addClass('btn-success').removeClass('btn-danger').html('Start Stalking');
+      }
+      return this;
+    },
+
+    onFollowClick: function() {
+      if (this.model.get('following') == 'true') {
+        $.ajax('http://istalkerapp.appspot.com/unfollow/', {
+          type: "POST",
+          data: JSON.stringify({celebrity_id: this.options.celebId, user_id: sessionStorage.getItem('user_id')}),
+          dataType: 'json', 
+          success: function() {
+            this.model.set('following', 'false');
+            this.$('button.following').addClass('btn-success').removeClass('btn-danger').html('Start Stalking');
+          },
+          context: this
+        });        
+      } else {
+        $.ajax('http://istalkerapp.appspot.com/follow/', {
+          type: "POST",
+          data: JSON.stringify({celebrity_id: this.options.celebId, user_id: sessionStorage.getItem('user_id')}),
+          dataType: 'json', 
+          success: function() {
+            this.model.set('following', 'true');
+            this.$('button.following').removeClass('btn-success').addClass('btn-danger').html('Stop Stalking'); 
+          },
+          context: this
+        });
+      }
     }
 
   });
