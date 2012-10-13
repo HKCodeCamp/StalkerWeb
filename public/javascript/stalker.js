@@ -19,10 +19,10 @@ window.LoginView = (function(Backbone, _, $) {
     onLoginSubmit: function(e) {
       e.preventDefault();
       this.$('.alert').hide();
-      // if (!this.model.has('username') || !this.model.has('password')) {
-      //   this.$('.alert').show();
-      //   return;
-      // }
+      if (_.isEmpty(this.$('input#username').val()) || _.isEmpty(this.$('input#password').val())) {
+        this.$('.alert').show();
+        return;
+      }
       this.model.save({
         username: this.$('input#username').val(),
         password: this.$('input#password').val()
@@ -96,7 +96,23 @@ window.ListView = (function(Backbone, _, $) {
 
   var StalkLine = Backbone.Collection.extend({
 
-    urlRoot: 'http://istalkerapp.appspot.com/list/'
+    url: 'http://istalkerapp.appspot.com/list/'
+
+  });
+
+  var Stalk = Backbone.View.extend({
+
+    render: function() {
+      var template = _.template($("#template").html())
+      this.$el.html(template({
+        id: this.model.get('celebrityid'),
+        name: this.model.get('celebrityname'),
+        when: '5 minutes ago',
+        where: this.model.get('location'),
+        comment: this.model.get('comment')
+      }))
+      return this;
+    }
 
   });
 
@@ -107,8 +123,16 @@ window.ListView = (function(Backbone, _, $) {
     },
 
     render: function() {
-      
+      this.collection.fetch({
+        success: _.bind(this.addStalk, this)
+      })
       return this;
+    },
+
+    addStalk: function(collection) {
+      collection.each(function(model)  {
+        this.$('.list').append(new Stalk({ model: model }).render().$el);
+      }, this);
     }
 
   });

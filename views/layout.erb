@@ -22,12 +22,14 @@
     <script src="javascript/vendor/backbone.js" type="text/javascript"></script>
     <script src="javascript/vendor/bootstrap-dropdown.js" type="text/javascript"></script>
     <script type="text/javascript">
-    
+      $(document).ready(function() {
       _.templateSettings = {
-        evaluate    : /<$([\s\S]+?)$>/g,
-        interpolate : /<$=([\s\S]+?)$>/g,
-        escape      : /<$-([\s\S]+?)$>/g
+        evaluate    : /<\$([\s\S]+?)\$>/g,
+        interpolate : /<\$=([\s\S]+?)\$>/g,
+        escape      : /<\$-([\s\S]+?)\$>/g
       };
+      });
+
     
       window.require_login = function() {
         // if (_.isEmpty(sessionStorage.getItem('user_id'))) {
