@@ -213,7 +213,7 @@ window.StalkView = (function(Backbone, _, $) {
   var Stalk = Backbone.Model.extend({
 
     defaults: {
-      location_4sid: "4bf58dd8d48988d174941735",
+      location_4sqid: "4bf58dd8d48988d174941735",
       location_name: "Coworking Space",
       celebrity_id: ''
     },
