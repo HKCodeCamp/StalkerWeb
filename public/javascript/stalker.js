@@ -207,3 +207,28 @@ window.DetailView = (function(Backbone, _, $) {
 
   return View;
 })(window.Backbone, window._, window.jQuery)
+
+window.StalkView = (function(Backbone, _, $) {
+
+  var Stalk = Backbone.Model.extend({
+
+    initialize: function(attr, options) {
+      this.celebId = options.celebId;
+    },
+
+    url: function() {
+      return 'http://istalkerapp.appspot.com/spotting/' + this.celebId + '/' + sessionStorage.getItem('user_id') + '/';
+    }
+
+  });
+
+  var View = Backbone.View.extend({
+
+    render: function() {
+      return this;
+    }
+
+  });
+
+  return View;
+})(window.Backbone, window._, window.jQuery)

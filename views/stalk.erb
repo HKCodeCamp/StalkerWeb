@@ -1,37 +1,51 @@
-<div class="row-fluid">
-  <div class="offset1 span4">
-    <form class="form-vertical">
-      <legend>Target aquired!!</legend>
-      <div class="control-group">
-        <label class="control-label" for="who">Who?</label>
-        <div class="controls">
-          <input type="text" id="who" placeholder="who ya seen?">
+<div class="stalk">
+  <div class="row-fluid">
+    <div class="offset1 span4">
+      <form class="form-vertical">
+        <legend>Target aquired!!</legend>
+        <div class="control-group">
+          <label class="control-label" for="who">Who?</label>
+          <div class="controls">
+            <input type="text" id="celebrity_name" placeholder="who ya seen?" 
+            data-provide='typeahead'
+            data-source='search'
+            >
+          </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="where">Where?</label>
-        <div class="controls">
-          <input type="password" id="where" placeholder="where ya seen em'?">
+        <div class="control-group">
+          <label class="control-label" for="where">Where?</label>
+          <div class="controls">
+            <input type="password" id="where" placeholder="where ya seen em'?">
+          </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="comments">Comments</label>
-        <div class="controls">
-          <input type="password" id="comments" placeholder="whacha' wanna say??">
+        <div class="control-group">
+          <label class="control-label" for="comments">Comments</label>
+          <div class="controls">
+            <input type="password" id="comments" placeholder="whacha' wanna say??">
+          </div>
+        </div>      
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn">Stalk-em'!!</button>
+          </div>
         </div>
-      </div>      
-      <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn">Stalk-em'!!</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 <% content_for :start do %>
   <script type="text/javascript">
+
     $(document).ready(function() {
       require_login();
+      var view = new StalkView({el: $('dev.stalk'), }).render();
+      $('#celebrity_name').typeahead({
+        source: function(query, process) {
+          return $.get('http://istalkerapp.appspot.com/search/' + query + '/', function(data) {
+            return process(_.uniq(_.pluck(data, 'celebrity_name')));
+          });
+        }
+      });
     });
   </script>
 <% end %>
