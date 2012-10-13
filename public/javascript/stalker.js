@@ -2,7 +2,7 @@ window.LoginView = (function(Backbone, _, $) {
 
   var Login = Backbone.Model.extend({
 
-    urlRoot: 'http://192.168.100.31:8080/login/'
+    urlRoot: 'http://istalkerapp.appspot.com/login/'
 
   });
 
