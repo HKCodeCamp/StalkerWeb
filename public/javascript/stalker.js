@@ -19,10 +19,10 @@ window.LoginView = (function(Backbone, _, $) {
     onLoginSubmit: function(e) {
       e.preventDefault();
       this.$('.alert').hide();
-      if (!this.model.has('username') || !this.model.has('password')) {
-        this.$('.alert').show();
-        return;
-      }
+      // if (!this.model.has('username') || !this.model.has('password')) {
+      //   this.$('.alert').show();
+      //   return;
+      // }
       this.model.save({
         username: this.$('input#username').val(),
         password: this.$('input#password').val()
@@ -51,7 +51,7 @@ window.RegisterView = (function(Backbone, _, $) {
 
   var Registration = Backbone.Model.extend({
 
-    urlRoot: 'http://istalkerapp.appspot.com/register'
+    urlRoot: 'http://istalkerapp.appspot.com/register/'
 
   });
 
@@ -85,6 +85,30 @@ window.RegisterView = (function(Backbone, _, $) {
 
     onRegistrationError: function() {
       this.$('.alert').show();
+    }
+
+  });
+
+  return View;
+})(window.Backbone, window._, window.jQuery)
+
+window.ListView = (function(Backbone, _, $) {
+
+  var StalkLine = Backbone.Collection.extend({
+
+    urlRoot: 'http://istalkerapp.appspot.com/list/'
+
+  });
+
+  var View = Backbone.View.extend({
+
+    initialize: function() {
+      this.collection = new StalkLine();
+    },
+
+    render: function() {
+      
+      return this;
     }
 
   });

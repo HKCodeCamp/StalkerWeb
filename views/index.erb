@@ -1,25 +1,29 @@
-<div class='row-fluid stalked'>
-  <div class="span10">
-    <h2>Live Stalks</h2>
-  </div>
-</div>
-<% (1..20).each do |i| %>
-<div class='row-fluid stalked'>
-  <div class="span2">
-    <img src="http://placehold.it/120x120" class="img-rounded visible-tablet visible-desktop">
-  </div>
-  <div class="span10">
-    <div class="row-fluid">
-      <div class='span12'>
-        <strong>Jackie Chan</strong><br />
-        <em>5 minutes ago @ IFC Mall, Hong Kong Island</em><br />
-        Saw jackie jan talking a shjite in starbucks...<br />
-        <a href="/detail/<%=i.to_s%>">more details.. <i class="icon-arrow-right"></i></a>
-      </div>      
+<div class='stalk-line'>
+  <div class='row-fluid stalked'>
+    <div class="span10">
+      <h2>Live Stalks</h2>
     </div>
   </div>
+  <div class='list'></div>
+  <script type="text/html" id="template">
+   <div class='row-fluid stalked'>
+      <div class="span2">
+        <img src="http://placehold.it/120x120" class="img-rounded visible-tablet visible-desktop">
+      </div>
+      <div class="span10">
+        <div class="row-fluid">
+          <div class='span12'>
+            <strong><$= name $></strong><br />
+            <em><$= when $> @ <$= where $></em><br />
+            <$= comment $><br />
+            <a href="/detail/<$= id $>">more details.. <i class="icon-arrow-right"></i></a>
+          </div>      
+        </div>
+      </div>
+    </div>
+  </script>
 </div>
-<% end %>
+
 
 <% content_for :start do %>
   <script type="text/javascript">
