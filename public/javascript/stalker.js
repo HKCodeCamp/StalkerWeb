@@ -241,7 +241,7 @@ window.StalkView = (function(Backbone, _, $) {
       e.preventDefault();
       this.model.save({
         celebrity_name: this.$('#celebrity_name').val(),
-        comments: this.$('#comments').val()
+        comment: this.$('#comments').val()
       }, {
         success: function(model) {
           window.location = '/detail/' + model.get('celebrity_id')
