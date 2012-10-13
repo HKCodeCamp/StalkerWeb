@@ -6,7 +6,7 @@
         <div class="control-group">
           <label class="control-label" for="who">Who?</label>
           <div class="controls">
-            <input type="text" id="celebrity_name" placeholder="who ya seen?" 
+            <input type="text" autocomplete='off' id="celebrity_name" placeholder="who ya seen?" 
             data-provide='typeahead'
             data-source='search'
             >
@@ -15,13 +15,13 @@
         <div class="control-group">
           <label class="control-label" for="where">Where?</label>
           <div class="controls">
-            <input type="password" id="where" placeholder="where ya seen em'?">
+            <input type="text" id="where" placeholder="where ya seen em'?" value="cocoon">
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="comments">Comments</label>
           <div class="controls">
-            <input type="password" id="comments" placeholder="whacha' wanna say??">
+            <input type="text" id="comments" placeholder="whacha' wanna say??" >
           </div>
         </div>      
         <div class="control-group">
@@ -38,7 +38,7 @@
 
     $(document).ready(function() {
       require_login();
-      var view = new StalkView({el: $('dev.stalk'), }).render();
+      var view = new StalkView({el: $('div.stalk'), }).render();
       $('#celebrity_name').typeahead({
         source: function(query, process) {
           return $.get('http://istalkerapp.appspot.com/search/' + query + '/', function(data) {

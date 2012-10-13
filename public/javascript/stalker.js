@@ -212,17 +212,45 @@ window.StalkView = (function(Backbone, _, $) {
 
   var Stalk = Backbone.Model.extend({
 
-    initialize: function(attr, options) {
-      this.celebId = options.celebId;
+    defaults: {
+      location_4sid: "4bf58dd8d48988d174941735",
+      location_name: "Coworking Space",
+      celebrity_id: ''
     },
 
-    url: function() {
-      return 'http://istalkerapp.appspot.com/spotting/' + this.celebId + '/' + sessionStorage.getItem('user_id') + '/';
-    }
+    initialize: function(attr, options) {
+      this.set('user_id', sessionStorage.getItem('user_id'));
+    },
+
+    urlRoot: 'http://istalkerapp.appspot.com/spotting/'
+    
 
   });
 
   var View = Backbone.View.extend({
+
+    events: {
+      'submit form': 'onSpot'
+    },
+
+    initialize: function() {
+      this.model = new Stalk();
+    },
+
+    onSpot: function(e) {
+      e.preventDefault();
+      this.model.save({
+        celebrity_name: this.$('#celebrity_name').val(),
+        comments: this.$('#comments').val()
+      }, {
+        success: function(model) {
+          window.location = '/detail/' + model.get('celebrity_id')
+        },
+        error: function() {
+          console.log(arguments);
+        }
+      })
+    },
 
     render: function() {
       return this;
